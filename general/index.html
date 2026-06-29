@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<!--
+  SERGAS · Landing de captura de obras  (Fase 0)
+  ------------------------------------------------------------------
+  Página mobile-first para convertir tráfico (Google Ads / redes) en
+  consultas de presupuesto. Todo lo que el equipo debe tocar está en
+  el bloque CONFIG de abajo (teléfono, email, endpoint del formulario).
+  Los logos se REFERENCIAN desde ./assets (no van incrustados en el código).
+  Para publicar: subir esta carpeta completa (index.html + /assets) al
+  hosting de sergas.ar. Ver GUIA_Fase_0_SERGAS.md.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SERGAS · Presupuesto de obra sin cargo (gas, agua, cloacas, luz)</title>
+  <meta name="description" content="40 años llevando redes de gas, agua, cloacas y electricidad a lotes, barrios y obras en Bariloche y la región. Pedí tu presupuesto sin cargo." />
+
+  <!-- Tipografía de marca (Albert Sans). Recurso externo referenciado, no incrustado. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---- Variables de marca SERGAS ---- */
+    :root{
+      --rojo:#E2231A; --rojo-osc:#B91610; --negro:#2B2B2B;
+      --gris:#595959; --gris-claro:#F4F4F4; --blanco:#FFFFFF;
+      --sombra:0 6px 24px rgba(0,0,0,.12); --radio:14px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Albert Sans',Arial,Helvetica,sans-serif;color:var(--negro);line-height:1.55;background:var(--blanco)}
+    img{max-width:100%;display:block}
+    a{color:inherit}
+    .wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;
+      padding:15px 26px;font-size:1.05rem;font-weight:700;cursor:pointer;text-decoration:none;transition:.15s}
+    .btn-wa{background:#25D366;color:#fff}
+    .btn-wa:hover{filter:brightness(.95)}
+    .btn-rojo{background:var(--rojo);color:#fff}
+    .btn-rojo:hover{background:var(--rojo-osc)}
+
+    /* ---- Hero ---- */
+    .hero{background:linear-gradient(135deg,var(--rojo) 0%,var(--rojo-osc) 100%);color:#fff;
+      padding:34px 0 56px;position:relative;overflow:hidden}
+    .hero .logo{height:46px;width:auto;margin-bottom:34px}
+    .hero h1{font-size:2.1rem;font-weight:800;line-height:1.15;max-width:18ch}
+    .hero p.sub{font-size:1.15rem;margin:16px 0 8px;max-width:42ch;opacity:.95}
+    .hero .badges{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 28px}
+    .hero .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+      border-radius:999px;padding:7px 14px;font-size:.9rem;font-weight:600}
+    .hero .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+
+    /* ---- Secciones ---- */
+    section{padding:52px 0}
+    h2{font-size:1.7rem;font-weight:800;color:var(--negro);margin-bottom:8px}
+    .lead{color:var(--gris);font-size:1.08rem;margin-bottom:28px;max-width:60ch}
+
+    /* Servicios */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+    .card{background:var(--gris-claro);border-radius:var(--radio);padding:22px;border-left:4px solid var(--rojo)}
+    .card h3{font-size:1.12rem;margin-bottom:6px}
+    .card p{color:var(--gris);font-size:.96rem}
+
+    /* Prueba social */
+    .prueba{background:var(--negro);color:#fff}
+    .prueba .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:22px;text-align:center}
+    .prueba .num{font-size:2.4rem;font-weight:800;color:#fff}
+    .prueba .num span{color:var(--rojo)}
+    .prueba .lbl{color:#cfcfcf;font-size:.95rem}
+
+    /* Formulario */
+    .form-sec{background:var(--gris-claro)}
+    form{background:#fff;border-radius:var(--radio);box-shadow:var(--sombra);padding:26px;max-width:620px}
+    .field{margin-bottom:16px}
+    label{display:block;font-weight:600;margin-bottom:6px;font-size:.95rem}
+    input,select,textarea{width:100%;padding:13px 14px;border:1px solid #d8d8d8;border-radius:10px;
+      font-family:inherit;font-size:1rem;background:#fff}
+    input:focus,select:focus,textarea:focus{outline:2px solid var(--rojo);border-color:var(--rojo)}
+    textarea{min-height:90px;resize:vertical}
+    .hp{position:absolute;left:-9999px}     /* honeypot anti-spam (oculto) */
+    .form-note{font-size:.85rem;color:var(--gris);margin-top:6px}
+    .ok-msg{display:none;background:#e9f9ef;border:1px solid #25D366;color:#0f7a39;
+      border-radius:10px;padding:16px;font-weight:600;margin-top:8px}
+
+    /* Footer */
+    footer{background:#1f1f1f;color:#bdbdbd;padding:34px 0;font-size:.92rem}
+    footer .logo{height:34px;margin-bottom:14px}
+    footer a{color:#fff;text-decoration:none}
+
+    /* Botón flotante WhatsApp */
+    .wa-float{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:58px;height:58px;
+      border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--sombra);
+      z-index:50;font-size:1.7rem;text-decoration:none}
+
+    @media(min-width:760px){
+      .hero{padding:40px 0 70px}
+      .hero h1{font-size:2.9rem}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="wrap">
+      <img class="logo" src="./assets/sergas-logo-blanco.png" alt="SERGAS" />
+      <h1>Llevamos la red a tu lote, tu barrio o tu obra.</h1>
+      <p class="sub">Redes de gas, agua, cloacas y luz, obra civil, vial y movimiento de suelos. Hacemos la obra de infraestructura completa, con más de 40 años de experiencia.</p>
+      <div class="badges">
+        <span class="badge">+40 años de trayectoria</span>
+        <span class="badge">Bariloche · Dina Huapi · Región</span>
+        <span class="badge">Planos y permisos incluidos</span>
+        <span class="badge">Empresa habilitada</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-wa" id="cta-wa-hero" href="#" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        <a class="btn btn-rojo" href="#presupuesto">Pedir presupuesto</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= SERVICIOS ================= -->
+  <section>
+    <div class="wrap">
+      <h2>¿Qué obra necesitás resolver?</h2>
+      <p class="lead">Ejecutamos la obra de infraestructura completa: del proyecto a la conexión. Estos son algunos de nuestros servicios.</p>
+      <div class="grid">
+        <div class="card"><h3>Red de gas</h3><p>Extensión de red y conexión domiciliaria para lotes, barrios y consorcios.</p></div>
+        <div class="card"><h3>Agua y cloacas</h3><p>Redes de distribución, cisternas, estaciones de bombeo y conexiones domiciliarias.</p></div>
+        <div class="card"><h3>Electricidad y datos</h3><p>Redes de baja y media tensión, alumbrado, subestaciones y tendido de datos.</p></div>
+        <div class="card"><h3>Pluviales y saneamiento</h3><p>Desagües pluviales, alcantarillados y tratamiento de aguas.</p></div>
+        <div class="card"><h3>Movimiento de suelos</h3><p>Excavación (incluso en roca), apertura de calles, nivelación, desmonte y áridos.</p></div>
+        <div class="card"><h3>Obra civil y demoliciones</h3><p>Contenciones, plateas, cisternas, estaciones de bombeo y demoliciones.</p></div>
+        <div class="card"><h3>Pavimentos y vialidad</h3><p>Cordón cuneta, bocacalles, pavimento de hormigón y mantenimiento de calles.</p></div>
+        <div class="card"><h3>Topografía y dirección de obra</h3><p>Relevamientos, replanteo, consultoría técnica y dirección integral de obra.</p></div>
+      </div>
+      <p class="lead" style="margin-top:24px">¿No ves tu obra en la lista? Igual podemos ayudarte: hacemos infraestructura completa para lotes, barrios, desarrollos, industrias y obra pública. <a href="#presupuesto" style="color:var(--rojo);font-weight:700">Consultanos</a>.</p>
+    </div>
+  </section>
+
+  <!-- ================= POR QUÉ ELEGIR SERGAS ================= -->
+  <section>
+    <div class="wrap">
+      <h2>¿Por qué elegir SERGAS?</h2>
+      <p class="lead">No somos intermediarios: somos la empresa que ejecuta la obra, habilitada por los entes reguladores.</p>
+      <div class="grid">
+        <div class="card"><h3>Trayectoria certificada</h3><p>Más de 40 años construyendo redes en la región. Empresa habilitada por las autoridades competentes; gran parte de la red de gas de Bariloche la construimos nosotros.</p></div>
+        <div class="card"><h3>Nos ocupamos de todo</h3><p>Del proyecto a la habilitación: <strong>planos constructivos, conforme a obra y tramitación de permisos van incluidos en la obra</strong>. Sin letra chica ni costos ocultos.</p></div>
+        <div class="card"><h3>Facilidades de contratación</h3><p>Condiciones especiales para obras vecinales y opciones de financiación. Consultanos por tu caso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CÓMO TRABAJAMOS ================= -->
+  <section class="form-sec">
+    <div class="wrap">
+      <h2>Cómo trabajamos</h2>
+      <p class="lead">Un proceso claro de principio a fin. Empezás sin compromiso.</p>
+      <div class="grid">
+        <div class="card"><h3><span style="color:var(--rojo)">1.</span> Relevamiento y presupuesto</h3><p>Visitamos, evaluamos el alcance de tu obra y te pasamos el presupuesto sin cargo.</p></div>
+        <div class="card"><h3><span style="color:var(--rojo)">2.</span> Proyecto y permisos</h3><p>Elaboramos los planos, tramitamos el proyecto conforme a la normativa vigente y gestionamos los permisos (incluidos en la obra).</p></div>
+        <div class="card"><h3><span style="color:var(--rojo)">3.</span> Ejecución de la obra</h3><p>Ejecutamos con materiales certificados y estrictos estándares de seguridad, con equipo y maquinaria propios.</p></div>
+        <div class="card"><h3><span style="color:var(--rojo)">4.</span> Habilitación</h3><p>Generamos y presentamos toda la documentación para la habilitación de la obra.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESPALDO ================= -->
+  <section class="prueba">
+    <div class="wrap">
+      <h2 style="color:#fff">Construí con quien sabe</h2>
+      <p class="lead" style="color:#cfcfcf">Más de 40 años ejecutando obras de infraestructura en la región, para municipios, desarrolladores y vecinos. Empresa habilitada, con equipo y maquinaria propios.</p>
+      <div class="nums">
+        <div><div class="num">+40<span> años</span></div><div class="lbl">de trayectoria</div></div>
+        <div><div class="num" style="font-size:1.5rem;line-height:2.4rem">Habilitada</div><div class="lbl">por los entes reguladores</div></div>
+        <div><div class="num" style="font-size:1.5rem;line-height:2.4rem">Materiales</div><div class="lbl">certificados y normados</div></div>
+        <div><div class="num" style="font-size:1.5rem;line-height:2.4rem">Obra propia</div><div class="lbl">equipo y maquinaria propios</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FORMULARIO ================= -->
+  <section class="form-sec" id="presupuesto">
+    <div class="wrap">
+      <h2>Pedí tu presupuesto sin cargo</h2>
+      <p class="lead">Contanos qué necesitás y te respondemos a la brevedad. También podés escribirnos directo por WhatsApp.</p>
+
+      <form id="lead-form" autocomplete="on">
+        <div class="field">
+          <label for="nombre">Nombre y apellido *</label>
+          <input id="nombre" name="nombre" type="text" required placeholder="Tu nombre" />
+        </div>
+        <div class="field">
+          <label for="telefono">WhatsApp / Teléfono *</label>
+          <input id="telefono" name="telefono" type="tel" required placeholder="Ej: 294 4 123456" />
+        </div>
+        <div class="field">
+          <label for="tipo">Tipo de obra *</label>
+          <select id="tipo" name="tipo" required>
+            <option value="" selected disabled>Elegí una opción</option>
+            <option>Red de gas</option>
+            <option>Agua</option>
+            <option>Cloacas</option>
+            <option>Electricidad / datos</option>
+            <option>Pluviales / saneamiento</option>
+            <option>Movimiento de suelos / desmonte</option>
+            <option>Obra civil / demolición</option>
+            <option>Pavimentos / cordón cuneta</option>
+            <option>Topografía / dirección de obra</option>
+            <option>Loteo / desarrollo (infraestructura completa)</option>
+            <option>Otra / no estoy seguro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="localidad">Localidad *</label>
+          <select id="localidad" name="localidad" required>
+            <option value="" selected disabled>Elegí tu localidad</option>
+            <option>San Carlos de Bariloche</option>
+            <option>Dina Huapi</option>
+            <option>El Bolsón</option>
+            <option>Villa La Angostura</option>
+            <option>Otra (la indico abajo)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="mensaje">Contanos sobre la obra</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Dirección/barrio, qué necesitás, plazos..."></textarea>
+        </div>
+        <!-- Honeypot: campo oculto; si se completa, es un bot y se descarta -->
+        <input class="hp" type="text" name="empresa_web" tabindex="-1" autocomplete="off" />
+
+        <button class="btn btn-rojo" type="submit" id="submit-btn" style="width:100%;justify-content:center">Enviar consulta</button>
+        <p class="form-note">Al enviar aceptás que SERGAS te contacte para responder tu consulta.</p>
+        <div class="ok-msg" id="ok-msg">¡Gracias! Recibimos tu consulta y te vamos a contactar a la brevedad.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="wrap">
+      <img class="logo" src="./assets/sergas-logo-blanco.png" alt="SERGAS" />
+      <p>Vice Alte. O´Connor 665 3°A · (8400) S.C. de Bariloche</p>
+      <p><a id="footer-mail" href="#">contacto@sergas.ar</a> · <a href="https://sergas.ar" target="_blank" rel="noopener">sergas.ar</a></p>
+      <p style="margin-top:10px;opacity:.7">Construimos un futuro que mejora la vida.</p>
+    </div>
+  </footer>
+
+  <!-- Botón flotante WhatsApp -->
+  <a class="wa-float" id="cta-wa-float" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">&#10003;</a>
+
+  <script>
+  /* =================================================================
+     CONFIG · EDITAR ESTOS 3 VALORES Y NADA MÁS
+     ================================================================= */
+  const CONFIG = {
+    // Número de WhatsApp en formato internacional, sin "+", espacios ni guiones.
+    // Argentina celular: 549 + característica sin 0 + número sin 15. Ej Bariloche: 5492944XXXXXX
+    WHATSAPP: "5492944631275",            // WhatsApp de SERGAS: +54 9 2944 63-1275
+    EMAIL: "contacto@sergas.ar",          // <-- email de contacto
+    // URL del Web App de Google Apps Script que guarda el lead en la planilla.
+    // Mientras esté vacío, el formulario igual funciona y redirige a WhatsApp.
+    FORM_ENDPOINT: ""                     // <-- pegar la URL del Apps Script (ver guía)
+  };
+  /* ================================================================= */
+
+  const waMsg = encodeURIComponent("Hola SERGAS, quiero pedir un presupuesto de obra.");
+  const waLink = `https://wa.me/${CONFIG.WHATSAPP}?text=${waMsg}`;
+  document.getElementById("cta-wa-hero").href = waLink;
+  document.getElementById("cta-wa-float").href = waLink;
+  document.getElementById("footer-mail").href = "mailto:" + CONFIG.EMAIL;
+
+  const form = document.getElementById("lead-form");
+  const okMsg = document.getElementById("ok-msg");
+  const btn = document.getElementById("submit-btn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (form.empresa_web.value) return;            // honeypot: bot detectado
+    btn.disabled = true; btn.textContent = "Enviando...";
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    data.fecha = new Date().toISOString();
+    data.origen = document.referrer || "directo";
+
+    try {
+      if (CONFIG.FORM_ENDPOINT) {
+        // Apps Script no soporta CORS estándar; 'no-cors' envía igual el dato.
+        await fetch(CONFIG.FORM_ENDPOINT, {
+          method: "POST", mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+      }
+      okMsg.style.display = "block";
+      form.reset();
+      // Abrir WhatsApp con los datos cargados (cierre inmediato del lead)
+      const txt = encodeURIComponent(
+        `Hola SERGAS, soy ${data.nombre}. Necesito: ${data.tipo} en ${data.localidad}. ${data.mensaje || ""}`.trim()
+      );
+      window.open(`https://wa.me/${CONFIG.WHATSAPP}?text=${txt}`, "_blank");
+    } catch (err) {
+      // Fallback total: si algo falla, mandamos a WhatsApp igual
+      window.open(waLink, "_blank");
+    } finally {
+      btn.disabled = false; btn.textContent = "Enviar consulta";
+    }
+  });
+  </script>
+</body>
+</html>

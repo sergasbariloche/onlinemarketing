@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<!--
+  SERGAS · Landing DEDICADA A RED DE GAS  (Fase 0)
+  ------------------------------------------------------------------
+  Página de conversión enfocada 100% en extensión de red de gas para
+  particulares y vecinos. Destino de las campañas de gas (Google/Meta).
+  Editar solo el bloque CONFIG (abajo). Logos referenciados desde ./assets.
+  Para publicar: subir esta carpeta (Gas/) completa al hosting.
+  Nota: el "sin cargo de factibilidad/anteproyecto sin compromiso" es
+  válido SOLO para gas (el proyecto lo genera el ente). No usar en la
+  landing General.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SERGAS · Red de gas para tu lote o barrio · Factibilidad sin cargo</title>
+  <meta name="description" content="Extendemos la red de gas a tu lote, barrio o comercio en Bariloche y la región. Empresa habilitada, +40 años. Gestionamos la factibilidad sin cargo y sin compromiso." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --rojo:#E2231A; --rojo-osc:#B91610; --negro:#2B2B2B;
+      --gris:#595959; --gris-claro:#F4F4F4; --blanco:#FFFFFF;
+      --sombra:0 6px 24px rgba(0,0,0,.12); --radio:14px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Albert Sans',Arial,Helvetica,sans-serif;color:var(--negro);line-height:1.55;background:var(--blanco)}
+    img{max-width:100%;display:block}
+    .wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 20px}
+    .btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;
+      padding:15px 26px;font-size:1.05rem;font-weight:700;cursor:pointer;text-decoration:none;transition:.15s}
+    .btn-wa{background:#25D366;color:#fff}
+    .btn-wa:hover{filter:brightness(.95)}
+    .btn-rojo{background:var(--rojo);color:#fff}
+    .btn-rojo:hover{background:var(--rojo-osc)}
+
+    .hero{background:linear-gradient(135deg,var(--rojo) 0%,var(--rojo-osc) 100%);color:#fff;
+      padding:34px 0 56px}
+    .hero .logo{height:46px;width:auto;margin-bottom:34px}
+    .hero h1{font-size:2.1rem;font-weight:800;line-height:1.15;max-width:20ch}
+    .hero p.sub{font-size:1.15rem;margin:16px 0 8px;max-width:46ch;opacity:.95}
+    .hero .badges{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 28px}
+    .hero .badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+      border-radius:999px;padding:7px 14px;font-size:.9rem;font-weight:600}
+    .hero .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+
+    section{padding:52px 0}
+    h2{font-size:1.7rem;font-weight:800;color:var(--negro);margin-bottom:8px}
+    .lead{color:var(--gris);font-size:1.08rem;margin-bottom:28px;max-width:62ch}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .card{background:var(--gris-claro);border-radius:var(--radio);padding:22px;border-left:4px solid var(--rojo)}
+    .card.no{border-left-color:#b0b0b0}
+    .card h3{font-size:1.12rem;margin-bottom:6px}
+    .card p{color:var(--gris);font-size:.96rem}
+    .card ul{color:var(--gris);font-size:.96rem;margin:6px 0 0 18px}
+    .card ul li{margin-bottom:4px}
+
+    .prueba{background:var(--negro);color:#fff}
+    .prueba .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px;text-align:center}
+    .prueba .num{font-size:2.4rem;font-weight:800;color:#fff}
+    .prueba .num span{color:var(--rojo)}
+    .prueba .lbl{color:#cfcfcf;font-size:.95rem}
+
+    .form-sec{background:var(--gris-claro)}
+    form{background:#fff;border-radius:var(--radio);box-shadow:var(--sombra);padding:26px;max-width:620px}
+    .field{margin-bottom:16px}
+    label{display:block;font-weight:600;margin-bottom:6px;font-size:.95rem}
+    input,select,textarea{width:100%;padding:13px 14px;border:1px solid #d8d8d8;border-radius:10px;
+      font-family:inherit;font-size:1rem;background:#fff}
+    input:focus,select:focus,textarea:focus{outline:2px solid var(--rojo);border-color:var(--rojo)}
+    textarea{min-height:90px;resize:vertical}
+    .hp{position:absolute;left:-9999px}
+    .form-note{font-size:.85rem;color:var(--gris);margin-top:6px}
+    .ok-msg{display:none;background:#e9f9ef;border:1px solid #25D366;color:#0f7a39;
+      border-radius:10px;padding:16px;font-weight:600;margin-top:8px}
+
+    footer{background:#1f1f1f;color:#bdbdbd;padding:34px 0;font-size:.92rem}
+    footer .logo{height:34px;margin-bottom:14px}
+    footer a{color:#fff;text-decoration:none}
+    .wa-float{position:fixed;right:18px;bottom:18px;background:#25D366;color:#fff;width:58px;height:58px;
+      border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:var(--sombra);
+      z-index:50;font-size:1.7rem;text-decoration:none}
+    @media(min-width:760px){ .hero{padding:40px 0 70px} .hero h1{font-size:2.9rem} }
+  </style>
+</head>
+<body>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="wrap">
+      <img class="logo" src="./assets/sergas-logo-blanco.png" alt="SERGAS" />
+      <h1>Llevá la red de gas a tu lote, tu barrio o tu comercio.</h1>
+      <p class="sub">Empresa habilitada con más de 40 años construyendo redes de gas en la región. Gestionamos la factibilidad <strong>sin cargo y sin compromiso</strong>.</p>
+      <div class="badges">
+        <span class="badge">+40 años en redes de gas</span>
+        <span class="badge">Empresa habilitada</span>
+        <span class="badge">Factibilidad sin cargo</span>
+        <span class="badge">Bariloche · Dina Huapi · Región</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-wa" id="cta-wa-hero" href="#" target="_blank" rel="noopener">Consultar por WhatsApp</a>
+        <a class="btn btn-rojo" href="#presupuesto">Quiero la factibilidad sin cargo</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= QUÉ INCLUYE ================= -->
+  <section>
+    <div class="wrap">
+      <h2>Tu solución para la red de gas</h2>
+      <p class="lead">Nos ocupamos de todo el proceso de construcción de la infraestructura, de principio a fin.</p>
+      <div class="grid">
+        <div class="card"><h3>Factibilidad sin cargo</h3><p>Gestionamos la factibilidad y el alcance del proyecto por vos, sin ningún costo por nuestra gestión y sin compromiso.</p></div>
+        <div class="card"><h3>Proyecto y aprobación</h3><p>Elaboramos, tramitamos y obtenemos la aprobación del proyecto conforme a la normativa vigente.</p></div>
+        <div class="card"><h3>Ejecución de la obra</h3><p>Gestionamos los permisos y ejecutamos la obra con materiales certificados (ENARGAS / NAG) y máxima seguridad.</p></div>
+        <div class="card"><h3>Documentación de habilitación</h3><p>Generamos y presentamos toda la documentación requerida para habilitar la obra ejecutada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= QUÉ NO INCLUYE ================= -->
+  <section class="form-sec">
+    <div class="wrap">
+      <h2>Para que no haya sorpresas</h2>
+      <p class="lead">Construimos la infraestructura de la red. Por normativa, estos puntos los resuelve un gasista matriculado (te recomendamos colaboradores de confianza):</p>
+      <div class="grid">
+        <div class="card no"><h3>Lo que resuelve el gasista matriculado</h3>
+          <ul>
+            <li>Instalación interna</li>
+            <li>Solicitud del medidor</li>
+            <li>Aprobación y colocación del nicho</li>
+          </ul>
+        </div>
+        <div class="card no"><h3>Costos de organismos</h3><p>Los entes y autoridades pueden aplicar sus propios costos por trámites; esos los cubre el cliente. Nuestra gestión de factibilidad es sin cargo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BENEFICIOS ================= -->
+  <section>
+    <div class="wrap">
+      <h2>¿Por qué conviene conectar el gas?</h2>
+      <p class="lead">Contar con red de gas no es solo confort: es una inversión en tu propiedad.</p>
+      <div class="grid">
+        <div class="card"><h3>Más valor a tu propiedad</h3><p>La infraestructura de gas mejora el atractivo y el precio de tu inmueble en el mercado.</p></div>
+        <div class="card"><h3>Ideal para alquileres</h3><p>Para alquiler permanente o turístico, el gas es un diferenciador que potencia el interés y la renta.</p></div>
+        <div class="card"><h3>Economía y confort</h3><p>Calefacción, cocina, agua caliente y calderas más económicas y eficientes que otras alternativas.</p></div>
+        <div class="card"><h3>Más limpio y confiable</h3><p>Suministro estable todo el año y una opción más amigable con el medio ambiente.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= POR QUÉ SERGAS ================= -->
+  <section class="form-sec">
+    <div class="wrap">
+      <h2>¿Por qué elegir SERGAS?</h2>
+      <p class="lead">Somos la empresa que construye la red, habilitada por los entes reguladores. No intermediarios.</p>
+      <div class="grid">
+        <div class="card"><h3>Trayectoria certificada</h3><p>Más de 40 años construyendo redes de gas. Gran parte de la red de Bariloche la hizo nuestro equipo.</p></div>
+        <div class="card"><h3>Solución completa</h3><p>De los permisos a la habilitación, con eficiencia que reduce tiempos. Transparencia total: sin letra chica ni costos ocultos.</p></div>
+        <div class="card"><h3>Facilidades de contratación</h3><p>Condiciones especiales para obras vecinales y opciones de financiación. Consultanos por tu caso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NO TE DEJES ENGAÑAR ================= -->
+  <section>
+    <div class="wrap">
+      <h2>No te dejes engañar</h2>
+      <p class="lead">Si estás analizando extender la red de gas, tené en cuenta estos puntos clave:</p>
+      <div class="grid">
+        <div class="card"><h3>Solo empresas habilitadas</h3><p>Únicamente las empresas habilitadas por los organismos reguladores pueden construir la red. Si no, no se habilita el suministro.</p></div>
+        <div class="card"><h3>No es trabajo de matriculado</h3><p>La construcción de la infraestructura de red requiere una empresa habilitada, no un gasista matriculado.</p></div>
+        <div class="card"><h3>Presupuesto claro</h3><p>El costo real surge recién con la factibilidad y el alcance. Esa gestión, en SERGAS, es sin cargo.</p></div>
+        <div class="card"><h3>Materiales certificados</h3><p>Usamos exclusivamente materiales que cumplen las normas ENARGAS (NAG): máxima seguridad y durabilidad.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESPALDO ================= -->
+  <section class="prueba">
+    <div class="wrap">
+      <h2 style="color:#fff">Construí con quien sabe</h2>
+      <p class="lead" style="color:#cfcfcf">Solo las empresas habilitadas por los entes reguladores pueden construir la red de gas. SERGAS lo es, con más de 40 años de obra en la región.</p>
+      <div class="nums">
+        <div><div class="num">+40<span> años</span></div><div class="lbl">en redes de gas</div></div>
+        <div><div class="num" style="font-size:1.5rem;line-height:2.4rem">Habilitada</div><div class="lbl">por los entes reguladores</div></div>
+        <div><div class="num" style="font-size:1.5rem;line-height:2.4rem">ENARGAS</div><div class="lbl">materiales certificados (NAG)</div></div>
+        <div><div class="num" style="font-size:1.5rem;line-height:2.4rem">Bariloche</div><div class="lbl">gran parte de su red, obra nuestra</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FORMULARIO ================= -->
+  <section class="form-sec" id="presupuesto">
+    <div class="wrap">
+      <h2>Empezá: gestionamos tu factibilidad sin cargo</h2>
+      <p class="lead">Dejanos tus datos y evaluamos la factibilidad y el alcance de tu obra de gas, sin costo ni compromiso. También podés escribirnos directo por WhatsApp.</p>
+
+      <form id="lead-form" autocomplete="on">
+        <div class="field">
+          <label for="nombre">Nombre y apellido *</label>
+          <input id="nombre" name="nombre" type="text" required placeholder="Tu nombre" />
+        </div>
+        <div class="field">
+          <label for="telefono">WhatsApp / Teléfono *</label>
+          <input id="telefono" name="telefono" type="tel" required placeholder="Ej: 294 4 123456" />
+        </div>
+        <div class="field">
+          <label for="propiedad">¿Qué querés conectar? *</label>
+          <select id="propiedad" name="propiedad" required>
+            <option value="" selected disabled>Elegí una opción</option>
+            <option>Mi lote / terreno</option>
+            <option>Mi vivienda</option>
+            <option>Mi barrio o grupo de vecinos</option>
+            <option>Comercio / industria</option>
+            <option>Loteo / desarrollo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="localidad">Localidad *</label>
+          <select id="localidad" name="localidad" required>
+            <option value="" selected disabled>Elegí tu localidad</option>
+            <option>San Carlos de Bariloche</option>
+            <option>Dina Huapi</option>
+            <option>El Bolsón</option>
+            <option>Villa La Angostura</option>
+            <option>Otra (la indico abajo)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="mensaje">Contanos sobre la obra</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Dirección/barrio, si hay red cerca, plazos..."></textarea>
+        </div>
+        <input class="hp" type="text" name="empresa_web" tabindex="-1" autocomplete="off" />
+
+        <button class="btn btn-rojo" type="submit" id="submit-btn" style="width:100%;justify-content:center">Quiero mi factibilidad sin cargo</button>
+        <p class="form-note">Al enviar aceptás que SERGAS te contacte para responder tu consulta.</p>
+        <div class="ok-msg" id="ok-msg">¡Gracias! Recibimos tu consulta y te vamos a contactar a la brevedad.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <div class="wrap">
+      <img class="logo" src="./assets/sergas-logo-blanco.png" alt="SERGAS" />
+      <p>Vice Alte. O´Connor 665 3°A · (8400) S.C. de Bariloche</p>
+      <p><a id="footer-mail" href="#">contacto@sergas.ar</a> · <a href="https://sergas.ar" target="_blank" rel="noopener">sergas.ar</a></p>
+      <p style="margin-top:10px;opacity:.7">Construimos un futuro que mejora la vida.</p>
+    </div>
+  </footer>
+
+  <a class="wa-float" id="cta-wa-float" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">&#10003;</a>
+
+  <script>
+  /* =================================================================
+     CONFIG · EDITAR ESTOS 3 VALORES Y NADA MÁS
+     ================================================================= */
+  const CONFIG = {
+    WHATSAPP: "5492944631275",            // WhatsApp de SERGAS: +54 9 2944 63-1275
+    EMAIL: "contacto@sergas.ar",
+    FORM_ENDPOINT: ""                     // pegar la URL del Apps Script (ver guía)
+  };
+  /* ================================================================= */
+
+  const waMsg = encodeURIComponent("Hola SERGAS, quiero consultar por la extensión de red de gas.");
+  const waLink = `https://wa.me/${CONFIG.WHATSAPP}?text=${waMsg}`;
+  document.getElementById("cta-wa-hero").href = waLink;
+  document.getElementById("cta-wa-float").href = waLink;
+  document.getElementById("footer-mail").href = "mailto:" + CONFIG.EMAIL;
+
+  const form = document.getElementById("lead-form");
+  const okMsg = document.getElementById("ok-msg");
+  const btn = document.getElementById("submit-btn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (form.empresa_web.value) return;            // honeypot
+    btn.disabled = true; btn.textContent = "Enviando...";
+
+    const f = Object.fromEntries(new FormData(form).entries());
+    // Adaptamos los datos al formato que espera la planilla (mismo Apps Script que la General)
+    const data = {
+      nombre: f.nombre, telefono: f.telefono,
+      tipo: "Red de gas",                          // fijo: esta landing es de gas
+      localidad: f.localidad,
+      mensaje: `[${f.propiedad || "-"}] ${f.mensaje || ""}`.trim(),
+      origen: "Landing Gas",
+      fecha: new Date().toISOString()
+    };
+
+    try {
+      if (CONFIG.FORM_ENDPOINT) {
+        await fetch(CONFIG.FORM_ENDPOINT, {
+          method: "POST", mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+      }
+      okMsg.style.display = "block";
+      form.reset();
+      const txt = encodeURIComponent(
+        `Hola SERGAS, soy ${data.nombre}. Quiero conectar gas (${f.propiedad || ""}) en ${data.localidad}. ${f.mensaje || ""}`.trim()
+      );
+      window.open(`https://wa.me/${CONFIG.WHATSAPP}?text=${txt}`, "_blank");
+    } catch (err) {
+      window.open(waLink, "_blank");
+    } finally {
+      btn.disabled = false; btn.textContent = "Quiero mi factibilidad sin cargo";
+    }
+  });
+  </script>
+</body>
+</html>
