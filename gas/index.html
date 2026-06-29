@@ -202,7 +202,11 @@
       <h2>Empezá: gestionamos tu factibilidad sin cargo</h2>
       <p class="lead">Dejanos tus datos y evaluamos la factibilidad y el alcance de tu obra de gas, sin costo ni compromiso. También podés escribirnos directo por WhatsApp.</p>
 
-      <form id="lead-form" autocomplete="on">
+      <form id="lead-form" name="lead-gas" method="POST" data-netlify="true" netlify-honeypot="empresa_web" autocomplete="on">
+        <!-- Campos ocultos para Netlify Forms (no tocar) -->
+        <input type="hidden" name="form-name" value="lead-gas" />
+        <input type="hidden" name="tipo" value="Red de gas" />
+        <input type="hidden" name="origen" value="Landing Gas" />
         <div class="field">
           <label for="nombre">Nombre y apellido *</label>
           <input id="nombre" name="nombre" type="text" required placeholder="Tu nombre" />
@@ -264,9 +268,9 @@
      ================================================================= */
   const CONFIG = {
     WHATSAPP: "5492944631275",            // WhatsApp de SERGAS: +54 9 2944 63-1275
-    EMAIL: "contacto@sergas.ar",
-    FORM_ENDPOINT: ""                     // pegar la URL del Apps Script (ver guía)
+    EMAIL: "contacto@sergas.ar"
   };
+  // Los leads se guardan en Netlify Forms (form "lead-gas") y, además, se abre WhatsApp.
   /* ================================================================= */
 
   const waMsg = encodeURIComponent("Hola SERGAS, quiero consultar por la extensión de red de gas.");
@@ -284,29 +288,20 @@
     if (form.empresa_web.value) return;            // honeypot
     btn.disabled = true; btn.textContent = "Enviando...";
 
-    const f = Object.fromEntries(new FormData(form).entries());
-    // Adaptamos los datos al formato que espera la planilla (mismo Apps Script que la General)
-    const data = {
-      nombre: f.nombre, telefono: f.telefono,
-      tipo: "Red de gas",                          // fijo: esta landing es de gas
-      localidad: f.localidad,
-      mensaje: `[${f.propiedad || "-"}] ${f.mensaje || ""}`.trim(),
-      origen: "Landing Gas",
-      fecha: new Date().toISOString()
-    };
+    const fd = new FormData(form);
+    const f = Object.fromEntries(fd.entries());
 
     try {
-      if (CONFIG.FORM_ENDPOINT) {
-        await fetch(CONFIG.FORM_ENDPOINT, {
-          method: "POST", mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-      }
+      // Guarda el lead en Netlify Forms (POST urlencoded a la raíz del sitio)
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(fd).toString()
+      });
       okMsg.style.display = "block";
       form.reset();
       const txt = encodeURIComponent(
-        `Hola SERGAS, soy ${data.nombre}. Quiero conectar gas (${f.propiedad || ""}) en ${data.localidad}. ${f.mensaje || ""}`.trim()
+        `Hola SERGAS, soy ${f.nombre}. Quiero conectar gas (${f.propiedad || ""}) en ${f.localidad}. ${f.mensaje || ""}`.trim()
       );
       window.open(`https://wa.me/${CONFIG.WHATSAPP}?text=${txt}`, "_blank");
     } catch (err) {
@@ -318,3 +313,4 @@
   </script>
 </body>
 </html>
+                                    
